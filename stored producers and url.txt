@@ -1,0 +1,109 @@
+db url
+jdbc:postgresql://localhost:5432/FlightsData", "postgres", "1234
+
+
+
+get_admin_by_username
+============================================================================
+
+	begin
+	return query
+	select "adminstrators"."id","adminstrators"."first_name","adminstrators"."last_name","adminstrators"."user_id" from "adminstrators"
+	join "users" on "adminstrators"."user_id"="users"."id"
+	where "username"=_username;
+	end;
+
+=============================================================================
+get_airline_by_username
+
+
+	begin
+	return query
+	select "airline_companies"."id","airline_companies"."name","airline_companies"."country_id","airline_companies"."user_id" from "airline_companies"
+	join "users" on "airline_companies"."user_id"="users"."id"
+	where "username"=_username;
+	end;
+=====================================================================================================
+
+get_arrival_flights
+
+begin
+	return query
+select * from "flights"
+where "flights"."destination_country_id"=_country_id
+AND "flights"."landing_time"< now()::timestamp(0)+interval'12 hours'
+AND "flights"."landing_time" > now()::timestamp(0);
+	end;
+
+
+
+=======================================================================================================
+get_customer_by_username
+
+
+	begin
+	return query
+	select "customers"."id","customers"."first_name","customers"."last_name","customers"."adress","customers"."phone_no","customers"."credit_card_no","customers"."user_id" from "customers"
+	join "users" on "customers"."user_id"="users"."id"
+	where "username"=_username;
+	end;
+==========================================================================================================
+get_departure_flights
+
+
+	begin
+	return query
+select * from "flights"
+where "flights"."origin_country_id"=_country_id
+AND "flights"."departure_time"< now()::timestamp(0)+interval'12 hours'
+AND "flights"."departure_time" > now()::timestamp(0);
+	end;
+
+==========================================================================
+get_flights_by_airline_id
+
+
+
+	begin
+	return query
+select * from "flights"
+where "flights"."airline_company_id"=_airline_id ;
+	end;
+
+===========================================================================
+get_flights_by_parameters
+
+
+
+	begin
+	return query
+select * from "flights"
+where "flights"."origin_country_id"=_origin_country_id AND "flights"."destination_country_id"=_destination_country_id AND "flights"."departure_time"=_times;
+	end;
+
+===============================================================================
+get_tickets_by_customer
+
+
+
+	begin
+	return query
+select * from "tickets"
+where "tickets"."customer_id"=_customer_id;
+
+	end;
+
+============================================================================
+get_user_by_username
+
+
+
+	begin
+	return query
+	select "users"."id","users"."username","users"."password","users"."email","users"."user_role" from "users"
+	where "users"."username"=_username;
+	end;
+
+
+
+==================================================================================
